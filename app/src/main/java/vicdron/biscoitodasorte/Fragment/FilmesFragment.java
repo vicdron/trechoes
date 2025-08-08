@@ -14,8 +14,6 @@ import vicdron.biscoitodasorte.R;
 
 
 public class FilmesFragment extends Fragment {
-    private Button botaoNovaFrase;
-    private ImageButton btshare;
     public String[] frases =
             {"O homem que não reconhece o seu passado não terá futuro! - O Retorno da Múmia",
                     "As pessoas esperam que eu faça tudo por elas,  mas não percebem que elas têm o poder. Você quer um milagre? Seja um milagre. - O Todo Poderoso",
@@ -113,19 +111,16 @@ public class FilmesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         View inflate = layoutInflater.inflate(R.layout.fragment_filmes, viewGroup, false);
-        this.textoNovaFrase = (TextView) inflate.findViewById(R.id.textoNovaFrase);
-        this.botaoNovaFrase = (Button) inflate.findViewById(R.id.botaoNovaFrase);
-        this.btshare = (ImageButton) inflate.findViewById(R.id.btshare);
-        this.botaoNovaFrase.setOnClickListener(new View.OnClickListener() {
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                int nextInt = new Random().nextInt(FilmesFragment.this.frases.length);
-                FilmesFragment.this.textoNovaFrase.setText(FilmesFragment.this.frases[nextInt]);
-                FilmesFragment filmesFragment = FilmesFragment.this;
-                filmesFragment.novafrase = filmesFragment.frases[nextInt];
-            }
+        this.textoNovaFrase = inflate.findViewById(R.id.textoNovaFrase);
+        Button botaoNovaFrase = inflate.findViewById(R.id.botaoNovaFrase);
+        ImageButton btshare = inflate.findViewById(R.id.btshare);
+        botaoNovaFrase.setOnClickListener(view -> {
+            int nextInt = new Random().nextInt(FilmesFragment.this.frases.length);
+            FilmesFragment.this.textoNovaFrase.setText(FilmesFragment.this.frases[nextInt]);
+            FilmesFragment filmesFragment = FilmesFragment.this;
+            filmesFragment.novafrase = filmesFragment.frases[nextInt];
         });
-        this.btshare.setOnClickListener(new View.OnClickListener() {
+        btshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareText();
@@ -134,7 +129,6 @@ public class FilmesFragment extends Fragment {
             public void shareText() {
                 Intent intent = new Intent("android.intent.action.SEND");
                 intent.setType("text/plain");
-               // intent.addFlags(524288);
                 intent.putExtra("android.intent.extra.TEXT", FilmesFragment.this.novafrase);
                 FilmesFragment.this.startActivity(intent);
             }
